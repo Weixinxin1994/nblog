@@ -1,0 +1,35 @@
+body {
+    margin:15px 0;
+}
+
+.container-fixed {
+    width: 960px;
+    margin:0 auto;
+}
+
+/* 首页 */
+.post {
+    position: relative;
+}
+
+.post .author {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.post p {
+   font-family: "宋体", Georgia, "Times New Roman", Times, "Songti SC", "SimSun", serif;
+   font-size: 18px;
+   font-weight: 100;
+   line-height: 30px;
+   color: #2f2f2f;
+}
+
+/* 头像 */
+.avatar {
+    border-radius: 3px;
+}
+
+.l_head{float:left;margin-left:4em;box-shadow:0px 1px 4px #888;}
+.r_head{float:right;margin-top:-2.5em;box-shadow:0px 1px 4px #888;}

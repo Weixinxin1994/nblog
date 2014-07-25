@@ -1,0 +1,26 @@
+<%- include header %>
+<% posts.forEach(function (post) { %>
+<div class="post">
+    <h2><a href="/p/<%= post._id %>"><%= post.title %></a></h2>
+    <h5 class="author text-muted"><img class="avatar" src="https://gravatar.com/avatar/<%= post.avatar %>?s=28" alt=""/>  <a href="/u/<%= post.author.name %>"><%= post.author.name %></a> 发布于<%= post.dateFromNow %></h5>
+    <p>
+        <%- post.content %>
+    </p>
+
+    <div class="tags">
+        <% post.tags.forEach(function(v) { %>
+        <span class="badge"><%= v %></span>
+        <% }) %>
+    </div>
+    
+    <p class="info">
+    阅读：<%= post.pv %> | 
+    评论：<%= post.comments.length %> 
+    </p>
+    <hr/>
+</div>
+<% }) %>
+
+<%- include paging %>
+
+<%- include footer %>

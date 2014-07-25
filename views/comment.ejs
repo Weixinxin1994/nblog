@@ -1,0 +1,24 @@
+<br />
+<% post.comments.forEach(function (comment, index) { %>
+
+    <p><img src="<%= comment.head %>" class="l_head" /><a href="<%= comment.website %>"><%= comment.name %></a>
+    <span class="info"> 回复于 <%= comment.commented_at %></span></p>
+    <p><%- comment.content %></p>
+
+<% }) %>
+
+<form method="post">
+    <div class="form-group">
+      <% if (user) { %>
+        <input type="text" name="name" class="form-control" style="font-size:15px;width: 200px;height: 30px;" value="<%= user.name %>" />
+        <input type="text" name="email"class="form-control" style="font-size:15px;width: 200px;height: 30px;" value="<%= user.email %>" />
+        <input type="text" name="website"class="form-control" style="font-size:15px;width: 200px;height: 30px;" value="/u/<%= user.name %>" />
+      <% } else { %>
+        <input type="text" name="name" class="form-control" style="font-size:15px;width: 200px;height: 30px;" placeholder="昵称" />
+        <input type="text" name="email"class="form-control" style="font-size:15px;width: 200px;height: 30px;" placeholder="邮箱" />
+        <input type="text" name="website"class="form-control" style="font-size:15px;width: 200px;height: 30px;" value="http://" />
+      <% } %>
+        <textarea name="content" rows="4" class="form-control" placeholder="我想说.."></textarea>
+    </div>
+    <button type="submit" class="btn btn-success pull-right">提交评论</button>
+</form>

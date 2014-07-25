@@ -1,0 +1,26 @@
+<%- include header %>
+
+<form method="post">
+    <div class="form-group">
+        <input type="text" name="title" class="form-control"  placeholder="标题"  autofocus />
+    </div>
+    
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-12">
+                <input type="text" name="tag" class="form-control" placeholder="标签1; 标签2; ..." />
+            </div>
+          
+        </div>
+    </div>
+    <div class="form-group">
+        <textarea name="content" class="form-control" cols="30" rows="20" placeholder="正文内容"> <%= typeof(content) !== 'undefined' && content || '' %></textarea>
+    </div>
+
+    <hr/>
+    <button type="submit" class="btn btn-success pull-right">
+        提交发布
+    </button>
+</form>
+
+<%- include footer %>

@@ -1,0 +1,31 @@
+{
+  "name": "nblog",
+  "version": "0.0.5",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "express": "4.x",
+    "static-favicon": "*",
+    "morgan": "*",
+    "cookie-parser": "*",
+    "body-parser": "*",
+    "debug": "*",
+    "express-session": "*",
+    "express-partials":"*",
+    "ejs": "*",
+    "connect-mongo": "*",
+    "mongoose": "*",
+    "connect-flash": "*",
+    "marked": "*",
+    "highlight.js": "*",
+    "method-override":"*",
+    "serve-static":"*",
+    "serve-favicon":"*",
+    "morgan": "*",
+    "moment":"*",
+    "validator":"*",
+    "xss":"*"
+  }
+}
