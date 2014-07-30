@@ -4,7 +4,7 @@
     <h5 class="author text-muted">
         <% if(user && user.name === post.author.name) { %>
         <a href="/edit/<%= post._id %>" class="btn btn-primary btn-sm">编辑</a>
-        <a href="/remove/<%= post._id %>" class="btn btn-primary btn-sm">删除</a>
+        <a href="/remove/<%= post._id %>" class="btn btn-warning btn-sm">删除</a>
         <% } %>
         <img class="avatar" src="https://gravatar.com/avatar/<%= post.avatar %>?s=28" alt=""/> <a href="/u/<%= post.author.name %>"><%= post.author.name %></a>发布于<%= post.dateFromNow %>
 

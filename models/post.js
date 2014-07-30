@@ -1,18 +1,18 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var ObjectId = Schema.ObjectId;
 
 var postSchema = new mongoose.Schema({
       author: {name:String, head:String},
       title:String,
       tags: [String],
       content: String,      
-      comments:[{ 
-      	name: String,
+      comments:[{
+        _id:false,
+        name: String,
         head: String,
-        email: String,
-        website: String,
-        commented_at: String,
-        content: String
+        content: String,
+        commented_at: String
         }],
       created_at: { type: Date, default: Date.now },
       updated_at: { type: Date, default: Date.now },

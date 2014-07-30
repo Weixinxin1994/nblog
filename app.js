@@ -25,6 +25,7 @@ app.set('view engine', 'ejs');
 app.use(partials());
 
 app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(morgan('dev'));
 app.use(morgan('combined', {stream: accessLog}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));

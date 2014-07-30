@@ -45,7 +45,7 @@ Post.getPage = function(name, page, callback) {
           }
           //解析 markdown 为 html
           docs.forEach(function (doc) {
-            doc.content = util.xss(marked(doc.content));
+            doc.content = util.xss(marked(doc.content.substr(0,140)+"..."));
           });  
           callback(null, docs, total);
         });
@@ -445,18 +445,13 @@ exports.getUserPage = function (req, res) {
 exports.comment = function (req, res) {
     var commented_at = new Date();
     var commented_at_str = moment(commented_at).format("YYYY-MM-DD HH:mm:ss");
-    var md5 = crypto.createHash('md5'),
-        email_MD5 = md5.update(req.body.email.toLowerCase()).digest('hex'),
-        head = "http://www.gravatar.com/avatar/" + email_MD5 + "?s=48"; 
+    var user = req.session.user;
     var comment = {
-        name: req.body.name,
-        head: head,
-        email: req.body.email,
-        website: req.body.website,
-        commented_at: commented_at_str,
-        content: req.body.content
+        name: user.name,
+        head: user.head,
+        content: req.body.content,
+        commented_at: commented_at_str
     };
-    
     Post.postComment(req.params._id, comment, commented_at, function (err) {
       if (err) {
         req.flash('error', err); 

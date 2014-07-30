@@ -9,7 +9,8 @@
 
     <div class="tags">
         <% post.tags.forEach(function(v) { %>
-        <span class="badge"><%= v %></span>
+        <span class="label label-info"><a  style=" text-decoration: none; color: #444;" href="/tags/<%= v %>"><%= v %></a></span>
+        	
         <% }) %>
     </div>
     
