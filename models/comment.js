@@ -6,7 +6,6 @@ var commentSchema = new mongoose.Schema({
   post_id: ObjectId,
   parent_id:ObjectId,
   author: {name:String,
-           email: String,
            head: String},
   content:String,
   created_at: { type: Date, default: Date.now }

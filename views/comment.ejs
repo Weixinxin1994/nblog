@@ -1,7 +1,7 @@
 <br />
 <% post.comments.forEach(function (comment, index) { %>
-  <p><img src="<%= comment.head %>"  /> <a href="<%= '/u/'+ comment.name %>"><%= comment.name %> </a> 
-   #<%= index+1 %> 回复于 <%= comment.commented_at %> </p> 
+  <p><img src="<%= comment.author.head %>"  /> <a href="<%= '/u/'+ comment.author.name %>"><%= comment.author.name %> </a> 
+   #<%= index+1 %> 回复于 <%= comment.created_at_str %> </p> 
   <p>  <%- comment.content %> </p>
 <% }) %>
 

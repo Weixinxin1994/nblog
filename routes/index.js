@@ -2,6 +2,7 @@
 var router=express.Router();//从express中取出router对象
 var user = require('../controllers/user');
 var post = require('../controllers/post');
+var comment = require('../controllers/comment');
 var home = require('../controllers/home');
 
 router.get('/', home.index);
@@ -39,7 +40,7 @@ router.get('/u/:name', post.getUserPage);
 
 router.get('/p/:_id', post.getPost);
 
-router.post('/p/:_id', post.comment);
+router.post('/p/:_id', comment.comment);
 
 router.get('/edit/:_id', user.checkLogin);
 router.get('/edit/:_id', post.showEdit);

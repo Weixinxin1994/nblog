@@ -1,8 +1,8 @@
 ﻿var config = {
-	siteName:'我知',
   cookieSecret: 'wozhi', 
   db: 'wozhi', 
   host: 'localhost',
+  port:3002,
   url:'mongodb://localhost/wozhi'
 };
 

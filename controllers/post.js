@@ -4,7 +4,7 @@ var Post = models.Post;
 var User = models.User;
 var Comment = models.Comment;;
 var moment = require('moment');
-moment.lang('zh-cn');
+moment.locale('zh-cn');
 var marked = require('marked');
 var util = require('../tools/util');
 
@@ -19,10 +19,20 @@ Post.getOne = function(_id, callback) {
           //解析 markdown 
            doc.content= util.xss(marked(doc.content));
            doc.title = util.xss(doc.title);
-           doc.comments.forEach(function (comment) {
+          Comment.find({post_id: _id}, null, {sort: {'created_at':"1"}}, function(err, comments) {
+          if (err) {
+            log.error('get comment failed with articleId ' + article_id);
+            return;
+         }
+          comments.forEach(function (comment) {
             comment.content = util.xss(marked(comment.content));
+            comment.created_at_str = moment(comment.created_at).format("YYYY-MM-DD HH:mm:ss");
           });
+         
+          doc.comments = comments;
           callback(null, doc);//返回查询的一篇文章
+        });
+         // callback(null, doc);//返回查询的一篇文章
         }
       });
 };
@@ -48,6 +58,7 @@ Post.getPage = function(name, page, callback) {
             doc.content = util.xss(marked(doc.content.substr(0,140)+"..."));
           });  
           callback(null, docs, total);
+          
         });
       });
 };
@@ -64,7 +75,7 @@ Post.edit = function(_id, callback) {
 };
 
 //更新一篇文章及其相关信息
-Post.update = function(_id, title, content, tags, callback) {
+Post.updatePost = function(_id, title, content, tags, callback) {
   var date = new Date();
       //更新文章内容
       Post.findByIdAndUpdate(_id, {
@@ -85,6 +96,12 @@ Post.remove = function(_id, callback) {
           if (err) {
             return callback(err);
           }
+          //删除评论
+         Comment.remove({post_id:_id}, function (err) {
+           if (err) {
+            return callback(err);
+           }
+          });
          callback(null);
         });
 };
@@ -498,7 +515,7 @@ exports.edit = function (req, res) {
         error: req.flash('error').toString()
       });
     } else { 
-    Post.update(req.params._id, title, content, tags, function (err) {
+    Post.updatePost(req.params._id, title, content, tags, function (err) {
       var url = '/p/' + req.params._id;
       if (err) {
         req.flash('error', err); 

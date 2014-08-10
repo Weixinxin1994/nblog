@@ -1,6 +1,6 @@
 {
-  "name": "nblog",
-  "version": "0.0.5",
+  "name": "wozhi",
+  "version": "0.0.6",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"

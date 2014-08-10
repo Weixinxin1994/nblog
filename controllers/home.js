@@ -1,6 +1,6 @@
 var Post = require('../models').Post;
 var moment = require('moment');
-moment.lang('zh-cn');
+moment.locale('zh-cn');
 
 exports.index = function (req, res) {
     //判断是否是第一页，并把请求的页数转换成 number 类型
