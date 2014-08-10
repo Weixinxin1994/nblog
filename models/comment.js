@@ -4,7 +4,6 @@ var ObjectId = Schema.ObjectId;
 
 var commentSchema = new mongoose.Schema({
   post_id: ObjectId,
-  parent_id:ObjectId,
   author: {name:String,
            head: String},
   content:String,
