@@ -1,8 +1,9 @@
 <%- include header %>
 <% posts.forEach(function (post) { %>
 <div class="post">
-    <h2><a href="/p/<%= post._id %>"><%= post.title %></a></h2>
-    <h5 class="author text-muted"><img class="avatar" src="https://gravatar.com/avatar/<%= post.avatar %>?s=28" alt=""/>  <a href="/u/<%= post.author.name %>"><%= post.author.name %></a> 发布于<%= post.dateFromNow %></h5>
+    <h1><a  class="title" href="/p/<%= post._id %>" ><%= post.title %></a></h1>
+    <h5 class="author text-muted"><img class="avatar" src="<%= post.author.head %>" alt=""/>  <a href="/u/<%= post.author.name %>"><%= post.author.name %></a> 发布于<%= post.dateFromNow %></h5>
+   
     <p>
         <%- post.content %>
     </p>

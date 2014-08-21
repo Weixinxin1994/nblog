@@ -6,12 +6,12 @@
         <a href="/edit/<%= post._id %>" class="btn btn-primary btn-sm">编辑</a>
         <a href="/remove/<%= post._id %>" class="btn btn-warning btn-sm">删除</a>
         <% } %>
-        <img class="avatar" src="https://gravatar.com/avatar/<%= post.avatar %>?s=28" alt=""/> <a href="/u/<%= post.author.name %>"><%= post.author.name %></a>发布于<%= post.dateFromNow %>
+        <img class="avatar" src="<%= post.author.head %>" alt=""/> <a href="/u/<%= post.author.name %>"><%= post.author.name %></a>发布于<%= post.dateFromNow %>
 
     </h5>
     <br/>
     <br/>
-    <h3><%- post.title %></h3>
+    <h2><%- post.title %></h2>
     <p>
         <%- post.content %>
     </p>

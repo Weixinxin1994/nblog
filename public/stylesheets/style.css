@@ -19,7 +19,7 @@ body {
 }
 
 .post p {
-   font-family: "宋体", Georgia, "Times New Roman", Times, "Songti SC", "SimSun", serif;
+   font-family: "lucida grande", "lucida sans unicode", lucida, "Helvetica Neue", helvetica, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
    font-size: 18px;
    font-weight: 100;
    line-height: 30px;
@@ -33,3 +33,28 @@ body {
 
 .l_head{float:left;margin-left:4em;box-shadow:0px 1px 4px #888;}
 .r_head{float:right;margin-top:-2.5em;box-shadow:0px 1px 4px #888;}
+
+/* 无下划线 */
+a:link {
+text-decoration: none;
+}
+a:visited {
+text-decoration: none;
+}
+a:hover {
+text-decoration: none;
+}
+a:active {
+text-decoration: none;
+}
+
+/* 首页文章标题 */
+.title {
+padding-right: 40px;
+display: inherit;
+color: #3b3b3b;
+font-size: 24px;
+font-weight: bold;
+line-height: 36px;
+text-decoration: none;
+}

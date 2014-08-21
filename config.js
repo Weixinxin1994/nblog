@@ -2,7 +2,7 @@
   cookieSecret: 'wozhi', 
   db: 'wozhi', 
   host: 'localhost',
-  port:3002,
+  port:8890,
   url:'mongodb://localhost/wozhi'
 };
 
