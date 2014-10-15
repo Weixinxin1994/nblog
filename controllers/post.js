@@ -194,7 +194,7 @@ exports.post = function (req, res) {
     var content = req.body.content;
     var currentUser = req.session.user,
         author = {name:currentUser.name, head:currentUser.head},
-        tagstr = req.body.tag,
+        tagstr = (req.body.tag).toLowerCase(),
         tags = tagstr.split(";");
     var title_error =
       title === '' ?
@@ -499,7 +499,7 @@ exports.edit = function (req, res) {
     var currentUser = req.session.user,
         title = req.body.title,
         content = req.body.content,
-        tagstr = req.body.tag,
+        tagstr = (req.body.tag).toLowerCase(),
         tags = tagstr.split(";");
      var edit_error =
     title === '' ?
