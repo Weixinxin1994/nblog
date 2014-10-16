@@ -63,3 +63,11 @@ font-weight: bold;
 line-height: 36px;
 text-decoration: none;
 }
+
+/* img width */
+img {
+    border: 0 none;
+    height: auto;
+    max-width: 100%;
+    vertical-align: middle;
+}
