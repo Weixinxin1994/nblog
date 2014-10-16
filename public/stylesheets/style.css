@@ -63,6 +63,16 @@ font-weight: bold;
 line-height: 36px;
 text-decoration: none;
 }
+/* post content*/
+.article{
+bottom: 0;
+padding: 30px;
+padding-bottom: 0;
+font-size: 17px;
+font-weight: 100;
+line-height: 30px;
+color: #2f2f2f;
+}
 
 /* img width */
 img {
