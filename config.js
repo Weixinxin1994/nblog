@@ -1,6 +1,4 @@
-﻿module.exports = config;
-module.exports.config = config;
-var config = {
+﻿var config = {
   cookieSecret: 'wozhi', 
   db: 'wozhi', 
   host: 'localhost',
