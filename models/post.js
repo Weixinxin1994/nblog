@@ -5,6 +5,7 @@ var ObjectId = Schema.ObjectId;
 var postSchema = new mongoose.Schema({
       author: {name:String, head:String},
       title:String,
+      tab: {type: String},
       tags: [String],
       content: String,
       created_at: { type: Date, default: Date.now },

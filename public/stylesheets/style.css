@@ -81,3 +81,15 @@ img {
     max-width: 100%;
     vertical-align: middle;
 }
+
+.current-tab {
+  color: #ccc;
+}
+
+.topic-tab {
+  margin: 0 10px;
+}
+
+#create_topic_form textarea.editor {
+  height: 400px;
+}

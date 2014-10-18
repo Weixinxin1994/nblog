@@ -7,6 +7,7 @@ var moment = require('moment');
 moment.locale('zh-cn');
 var marked = require('marked');
 var util = require('../tools/util');
+var config= require('../config');
 
 //获取一篇文章
 Post.getOne = function(_id, callback) {
@@ -37,10 +38,13 @@ Post.getOne = function(_id, callback) {
       });
 };
  // 分页读取 
-Post.getPage = function(name, page, callback) {
+Post.getPage = function(name, tab, page, callback) {
       var query = {};
       if (name) {
         query = {"author.name":name};
+      }
+      if (tab && tab !== 'all') {
+        query.tab = tab;
       }
       //使用 count 返回特定查询的文档数 total
       Post.count(query, function (err, total) {
@@ -75,11 +79,11 @@ Post.edit = function(_id, callback) {
 };
 
 //更新一篇文章及其相关信息
-Post.updatePost = function(_id, title, content, tags, callback) {
+Post.updatePost = function(_id, title, tab, content, tags, callback) {
   var date = new Date();
       //更新文章内容
       Post.findByIdAndUpdate(_id, {
-        $set: {title:title, content:content, tags:tags, updated_at:date}
+        $set: {title:title, tab:tab, content:content, tags:tags, updated_at:date}
       }, function (err) {
         if (err) {
           return callback(err);
@@ -183,27 +187,46 @@ Post.postComment = function(_id, comment, last_comment_at, callback) {
 exports.showPost = function (req, res) {
     res.render('post', {
       title: '发表',
+      tabs:config.tabs,
       user: req.session.user,
       success: req.flash('success').toString(),
       error: req.flash('error').toString()
     });
   }
+// 得到所有的 tab, e.g. 
+var allTabs = config.tabs.map(function (tPair) {
+  return tPair[0];
+});
  
 exports.post = function (req, res) {
     var title = req.body.title;
+    var tab = req.body.tab;
     var content = req.body.content;
     var currentUser = req.session.user,
         author = {name:currentUser.name, head:currentUser.head},
         tagstr = (req.body.tag).toLowerCase(),
         tags = tagstr.split(";");
-    var title_error =
-      title === '' ?
-      '标题不能是空的。' :
-      (title.length >= 4 && title.length <= 100 ? '' : '标题字数太多或太少。');
-    if (title_error) {
-     req.flash('error', '标题字数太多或太少'); 
+
+    // 验证
+    var editError;
+    if (title === '') {
+      editError = '标题不能是空的。';
+    } else if (title.length < 2 || title.length > 100) {
+      editError = '标题字数太多或太少。';
+    } else if (tagstr.length== 0 ) {
+    	editError = "请填写标签";
+    } else if (!tab || allTabs.indexOf(tab) === -1) {
+      editError = '必须选择一个版块。';
+    } else if (content === '') {
+      editError = '内容不可为空';
+    }
+  // END 验证 
+    if (editError) {
+     req.flash('error', editError); 
      res.render('post', {
         title: title,
+        tabs: config.tabs,
+        tab:tab,
         user: req.session.user,
         content:content,
         success: req.flash('success').toString(),
@@ -211,22 +234,11 @@ exports.post = function (req, res) {
       });
       return;
     } 
-    
-    if( tagstr.length== 0 ) {
-    	  req.flash('error', '请填写标签'); 
-     res.render('post', {
-        title: title,
-        user: req.session.user,
-        content:content,
-        success: req.flash('success').toString(),
-        error: req.flash('error').toString()
-      });
-      return;
-    }
-  
+ 
     var post = new Post({
       author:author, 
       title:title, 
+      tab:tab,
       tags:tags, 
       content:content
       });
@@ -369,7 +381,7 @@ exports.getPage = function (req, res) {
         return res.redirect('/');
       }
       //查询并返回该用户第 page 页的 10 篇文章
-      Post.getPage(user.name, page, function (err, posts, total) {
+      Post.getPage(user.name, null, page, function (err, posts, total) {
         if (err) {
           req.flash('error', err); 
           return res.redirect('/');
@@ -401,7 +413,7 @@ exports.getUserPage = function (req, res) {
         return res.redirect('/');
       }
       //查询并返回该用户第 page 页的 10 篇文章
-      Post.getPage(user.name, page, function (err, posts, total) {
+      Post.getPage(user.name, null, page, function (err, posts, total) {
         if (err) {
           req.flash('error', err); 
           return res.redirect('/');
@@ -487,6 +499,8 @@ exports.showEdit = function (req, res) {
       }
       res.render('edit', {
         title: '编辑',
+        tabs: config.tabs,
+        tab:post.tab,
         post: post,
         user: req.session.user,
         success: req.flash('success').toString(),
@@ -498,24 +512,36 @@ exports.showEdit = function (req, res) {
 exports.edit = function (req, res) {
     var currentUser = req.session.user,
         title = req.body.title,
+        tab = req.body.tab,
         content = req.body.content,
         tagstr = (req.body.tag).toLowerCase(),
         tags = tagstr.split(";");
-     var edit_error =
-    title === '' ?
-    '标题不能是空的。' :
-    (title.length >= 4 && title.length <= 100 ? '' : '标题字数太多或太少。');
-    if (edit_error) {
-     req.flash('error', '标题字数太多或太少'); 
+        // 验证
+    var editError;
+    if (title === '') {
+      editError = '标题不能是空的。';
+    } else if (title.length < 2 || title.length > 100) {
+      editError = '标题字数太多或太少。';
+    } else if (tagstr.length== 0 ) {
+    	editError = "请填写标签";
+    } else if (!tab || allTabs.indexOf(tab) === -1) {
+      editError = '必须选择一个版块。';
+    } else if (content === '') {
+      editError = '内容不可为空';
+    }
+  // END 验证 
+    if (editError) {
+     req.flash('error', editError); 
      res.render('post', {
         title: title,
+        tab:tab,
         user: req.session.user,
         content:content,
         success: req.flash('success').toString(),
         error: req.flash('error').toString()
       });
     } else { 
-    Post.updatePost(req.params._id, title, content, tags, function (err) {
+    Post.updatePost(req.params._id, title, tab, content, tags, function (err) {
       var url = '/p/' + req.params._id;
       if (err) {
         req.flash('error', err); 

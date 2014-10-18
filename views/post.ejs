@@ -1,7 +1,26 @@
 <%- include header %>
 
 <form method="post">
+	    <p>
+            <span class="tab-selector">选择版块：</span>
+            <select name="tab" id="tab-value">
+              <option value="">请选择</option>
+              <%
+              var tabValue = '';
+              if (typeof(tab) !== 'undefined') {
+                tabValue = tab;
+              }
+              tabs.forEach(function (pair) {
+                var value = pair[0];
+                var text = pair[1];
+                %>
+                <option value="<%=value%>" <%= tabValue === value ? 'selected': '' %>><%=text%></option>
+
+              <%});%>
+            </select>
+    	</p>   	 
     <div class="form-group">
+  
         <input type="text" name="title" class="form-control"  placeholder="标题"  autofocus />
     </div>
     
@@ -21,6 +40,7 @@
     <button type="submit" class="btn btn-success pull-right">
         提交发布
     </button>
+
 </form>
 
 <%- include footer %>
