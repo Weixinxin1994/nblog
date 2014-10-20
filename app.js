@@ -30,7 +30,7 @@ app.use(morgan('combined', {stream: accessLog}));
 app.use(bodyParser.json({limit:'1mb'}));
 app.use(bodyParser.urlencoded({extended: true, limit:'1mb'}));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(flash());
 
 
