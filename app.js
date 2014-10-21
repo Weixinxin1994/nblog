@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var compress = require('compression');
 
 var session = require('express-session');
 var partials = require('express-partials');
@@ -30,9 +31,10 @@ app.use(morgan('combined', {stream: accessLog}));
 app.use(bodyParser.json({limit:'1mb'}));
 app.use(bodyParser.urlencoded({extended: true, limit:'1mb'}));
 app.use(cookieParser());
+
+app.use(compress());
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(flash());
-
 
 app.use(session({
 	saveUninitialized: true,
