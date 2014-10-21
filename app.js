@@ -10,7 +10,7 @@ var session = require('express-session');
 var partials = require('express-partials');
 var config= require('./config');
 var MongoStore = require('connect-mongo')(session);
-
+var _ = require('lodash');
 
 var flash = require('connect-flash');
 var fs = require('fs');
@@ -47,6 +47,10 @@ app.use(session({
   })
 }));
 
+//set static, dynamic helpers
+_.extend(app.locals, {
+  config: config
+});
 app.use('/', routes);
 
 

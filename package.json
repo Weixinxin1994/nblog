@@ -17,6 +17,7 @@
     "express-partials": "*",
     "express-session": "*",
     "highlight.js": "*",
+    "lodash": "^2.4.1",
     "marked": "*",
     "method-override": "*",
     "moment": "*",
