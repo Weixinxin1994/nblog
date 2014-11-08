@@ -9,6 +9,7 @@
   tabs: [
     ['essay', '随笔'],
     ['review', '点评'],
+    ['travel','旅行'],
     ['others', '其他']
   ],
 };
