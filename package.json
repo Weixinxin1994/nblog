@@ -26,7 +26,6 @@
     "serve-favicon": "*",
     "serve-static": "*",
     "static-favicon": "*",
-    "validator": "*",
-    "xss": "*"
+    "validator": "*"
   }
 }

@@ -6,7 +6,7 @@ var Comment = models.Comment;;
 var moment = require('moment');
 moment.locale('zh-cn');
 var marked = require('marked');
-var util = require('../tools/util');
+var validator = require('validator');
 var config= require('../config');
 
 //获取一篇文章
@@ -18,15 +18,15 @@ Post.getOne = function(_id, callback) {
         }
         if (doc) {
           //解析 markdown 
-           doc.content= util.xss(marked(doc.content));
-           doc.title = util.xss(doc.title);
+           doc.content= validator.trim(marked(doc.content));
+           doc.title = validator.trim(doc.title);
           Comment.find({post_id: _id}, null, {sort: {'created_at':"1"}}, function(err, comments) {
           if (err) {
             log.error('get comment failed with articleId ' + article_id);
             return;
          }
           comments.forEach(function (comment) {
-            comment.content = util.xss(marked(comment.content));
+            comment.content = validator.trim(marked(comment.content));
             comment.created_at_str = moment(comment.created_at).format("YYYY-MM-DD HH:mm:ss");
           });
          
@@ -59,7 +59,7 @@ Post.getPage = function(name, tab, page, callback) {
           }
           //解析 markdown 为 html
           docs.forEach(function (doc) {
-            doc.content = util.xss(marked(doc.content.substr(0,140)+"..."));
+            doc.content = validator.trim(marked(doc.content.substr(0,140)+"..."));
           });  
           callback(null, docs, total);
           
