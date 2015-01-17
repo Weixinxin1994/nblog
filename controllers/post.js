@@ -79,11 +79,11 @@ Post.edit = function(_id, callback) {
 };
 
 //更新一篇文章及其相关信息
-Post.updatePost = function(_id, title, tab, content, tags, callback) {
+Post.updatePost = function(_id, title, tab, content, callback) {
   var date = new Date();
       //更新文章内容
       Post.findByIdAndUpdate(_id, {
-        $set: {title:title, tab:tab, content:content, tags:tags, updated_at:date}
+        $set: {title:title, tab:tab, content:content, updated_at:date}
       }, function (err) {
         if (err) {
           return callback(err);
@@ -125,32 +125,6 @@ Post.getArchive = function(callback) {
       });
 };
 
-//返回所有标签
-Post.getTags = function(callback) {
-      //distinct 用来找出给定键的所有不同值
-      Post.distinct("tags", function (err, docs) {
-        if (err) {
-          return callback(err);
-        }
-        callback(null, docs);
-      });
-};
-
-
-//返回含有特定标签的所有文章
-Post.getTag = function(tag, callback) {
-      //查询所有 tags 数组内包含 tag 的文档
-      Post.find({
-        "tags": tag
-      },{'author.name':1, created_at:1, title:1}, // Columns to Return
-      {sort: {_id:-1}}
-      , function (err, docs) {
-        if (err) {
-          return callback(err);
-        }
-        callback(null, docs);
-      });
-};
 
 //返回通过标题关键字查询的所有文章信息
 Post.search = function(keyword, callback) {
@@ -203,9 +177,7 @@ exports.post = function (req, res) {
     var tab = req.body.tab;
     var content = req.body.content;
     var currentUser = req.session.user,
-        author = {name:currentUser.name, head:currentUser.head},
-        tagstr = (req.body.tag).toLowerCase(),
-        tags = tagstr.split(";");
+        author = {name:currentUser.name, head:currentUser.head};
 
     // 验证
     var editError;
@@ -213,8 +185,6 @@ exports.post = function (req, res) {
       editError = '标题不能是空的。';
     } else if (title.length < 2 || title.length > 100) {
       editError = '标题字数太多或太少。';
-    } else if (tagstr.length== 0 ) {
-    	editError = "请填写标签";
     } else if (!tab || allTabs.indexOf(tab) === -1) {
       editError = '必须选择一个版块。';
     } else if (content === '') {
@@ -238,8 +208,7 @@ exports.post = function (req, res) {
     var post = new Post({
       author:author, 
       title:title, 
-      tab:tab,
-      tags:tags, 
+      tab:tab, 
       content:content
       });
     post.save(function (err) {
@@ -288,56 +257,6 @@ exports.archive = function (req, res) {
     });
   } 
    
-exports.showTags = function (req, res) {
-    Post.getTags(function (err, posts) {
-      if (err) {
-        req.flash('error', err); 
-        return res.redirect('/');
-      }
-      res.render('tags', {
-        title: '标签',
-        posts: posts,
-        user: req.session.user,
-        success: req.flash('success').toString(),
-        error: req.flash('error').toString()
-      });
-    });
-  }
-    
-exports.tag = function (req, res) {
-    Post.getTag(req.params.tag, function (err, posts) {
-      if (err) {
-        req.flash('error',err); 
-        return res.redirect('/');
-      }
-      var k, refactor, v;
-      refactor = [];
-        posts.forEach(function (v) {
-        var temp, _ref;
-          v.smallDate = moment(v.created_at).format('YYYY MMMM');
-          v.date = moment(v.created_at).format("YYYY-MM-DD HH:mm:ss");
-          temp = (_ref = refactor[v.smallDate]) != null ? _ref : refactor[v.smallDate] = [];
-          temp.push(v);
-        });
-
-        posts = [];
-        for (k in refactor) {
-          v = refactor[k];
-          posts.push({
-            date: k,
-            list: v
-          });
-         }
-      res.render('archive', {
-        title: 'TAG:' + req.params.tag,
-        posts: posts,
-        user: req.session.user,
-        success: req.flash('success').toString(),
-        error: req.flash('error').toString()
-      });
-    });
-  }
-    
 exports.search = function (req, res) {
     Post.search(req.query.keyword, function (err, posts) {
       if (err) {
@@ -513,17 +432,13 @@ exports.edit = function (req, res) {
     var currentUser = req.session.user,
         title = req.body.title,
         tab = req.body.tab,
-        content = req.body.content,
-        tagstr = (req.body.tag).toLowerCase(),
-        tags = tagstr.split(";");
+        content = req.body.content;
         // 验证
     var editError;
     if (title === '') {
       editError = '标题不能是空的。';
     } else if (title.length < 2 || title.length > 100) {
       editError = '标题字数太多或太少。';
-    } else if (tagstr.length== 0 ) {
-    	editError = "请填写标签";
     } else if (!tab || allTabs.indexOf(tab) === -1) {
       editError = '必须选择一个版块。';
     } else if (content === '') {
@@ -541,7 +456,7 @@ exports.edit = function (req, res) {
         error: req.flash('error').toString()
       });
     } else { 
-    Post.updatePost(req.params._id, title, tab, content, tags, function (err) {
+    Post.updatePost(req.params._id, title, tab, content, function (err) {
       var url = '/p/' + req.params._id;
       if (err) {
         req.flash('error', err); 

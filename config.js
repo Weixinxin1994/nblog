@@ -4,7 +4,7 @@
   host: 'localhost',
   port:8890,
   url:'mongodb://localhost/wozhi',
-  name:"我知",
+  name:"树洞",
     // 版块
   tabs: [
     ['essay', '随笔'],

@@ -5,6 +5,7 @@ var post = require('../controllers/post');
 var comment = require('../controllers/comment');
 var home = require('../controllers/home');
 
+router.get('/', user.checkLogin);//private
 router.get('/', home.index);
 
 router.get('/reg', user.checkNotLogin);
@@ -30,14 +31,11 @@ router.get('/logout', user.logout);
 
 router.get('/archive', post.archive);
 
-router.get('/tags', post.showTags);
-
-router.get('/tags/:tag', post.tag);
-
 router.get('/search', post.search);
 
 router.get('/u/:name', post.getUserPage);
 
+router.get('/p/:_id', user.checkLogin);//private
 router.get('/p/:_id', post.getPost);
 
 router.post('/p/:_id', comment.comment);

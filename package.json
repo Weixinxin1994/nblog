@@ -1,5 +1,5 @@
 {
-  "name": "wozhi",
+  "name": "shudong",
   "version": "0.0.6",
   "private": true,
   "scripts": {
@@ -12,7 +12,7 @@
     "connect-mongo": "*",
     "cookie-parser": "*",
     "debug": "*",
-    "ejs": "*",
+    "ejs": "^1.0.0",
     "express": "4.x",
     "express-partials": "*",
     "express-session": "*",
