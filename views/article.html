@@ -1,0 +1,35 @@
+<%- include header.html %>
+
+<div class="post">
+    <h5 class="author text-muted">
+        <% if(user && user.name === post.author.name) { %>
+        <a href="/edit/<%= post._id %>" class="btn btn-primary btn-sm">编辑</a>
+        <a href="/remove/<%= post._id %>" class="btn btn-warning btn-sm">删除</a>
+        <% } %>
+        <img class="avatar" src="<%= post.author.head %>" alt=""/> <a href="/u/<%= post.author.name %>"><%= post.author.name %></a>发布于<%= post.dateFromNow %>
+
+    </h5>
+    <br/>
+    <br/>
+    <h2><%- post.title %></h2>
+    <p class="article">
+        <%- post.content %>
+    </p>
+
+    <div class="tags">
+        <hr/>
+        <% post.tags.forEach(function(v) { %>
+        <span class="badge"><%= v %></span>
+        <% }) %>
+    </div>
+    
+    <p class="info">
+    阅读：<%= post.pv %> | 
+    评论：<%= post.comments.length %> |
+    发布于: <%= post.datetime %> 
+   </p>
+</div>
+
+<%- include comment.html %>
+
+<%- include footer.html %>

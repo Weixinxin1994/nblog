@@ -1,0 +1,18 @@
+<% post.comments.forEach(function (comment, index) { %>
+  <p><img src="<%= comment.author.head %>"  /> <a href="<%= '/u/'+ comment.author.name %>"><%= comment.author.name %> </a> 
+   #<%= index+1 %> 回复于 <%= comment.created_at_str %> </p> 
+  <p>  <%- comment.content %> </p>
+<% }) %>
+
+<form method="post">
+    <div class="col-md-10">
+      <% if (user) { %>
+          <textarea name="content" rows="5" class="form-control" placeholder="我想说.."></textarea>
+          <button type="submit" class="btn btn-success pull-right">提交评论</button>
+      <% } %>
+    </div>
+</form>
+<script>
+var editor = new Editor();
+editor.render();
+</script>
