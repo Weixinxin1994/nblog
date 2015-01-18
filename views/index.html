@@ -1,40 +1,4 @@
 <%- include header.html %>
-<div class="post">   
-	  <p> 
-      <% [['all', '全部']].concat(tabs).forEach(function (pair) {
-        var value = pair[0];
-        var text = pair[1]; %>
-        <a href="<%= value ? '/?tab=' + value : '/' %>"
-          class="topic-tab <%= value === tab ? 'current-tab' : '' %>">
-          <%= text %>
-        </a>
-      <% }) %>
-    </p>  
-</div>      
-<% posts.forEach(function (post) { %>
-<div class="post">
-    <h1><a  class="title" href="/p/<%= post._id %>" ><%= post.title %></a></h1>
-    <h5 class="author text-muted"><a href="/u/<%= post.author.name %>"><img class="avatar" src="<%= post.author.head %>" alt=""/>  <a href="/u/<%= post.author.name %>"><%= post.author.name %></a> 发布于<%= post.dateFromNow %></h5>
-   
-    <p>
-        <%- post.content %>
-    </p>
-
-    <div class="tags">
-        <% post.tags.forEach(function(v) { %>
-        <span class="label label-info"><a  style=" text-decoration: none; color: #444;" href="/tags/<%= v %>"><%= v %></a></span>
-        	
-        <% }) %>
-    </div>
-    
-    <p class="info">
-    阅读：<%= post.pv %> | 
-    评论：<%= post.comment_count %> 
-    </p>
-    <hr/>
-</div>
-<% }) %>
-
-<%- include paging.html %>
+<p>在这里，写下你的心事</p>
 
 <%- include footer.html %>

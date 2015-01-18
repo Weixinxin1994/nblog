@@ -11,13 +11,12 @@ var partials = require('express-partials');
 var config= require('./config');
 var MongoStore = require('connect-mongo')(session);
 var _ = require('lodash');
-
 var flash = require('connect-flash');
 var fs = require('fs');
 var accessLog = fs.createWriteStream('access.log', {flags: 'a'});
 
 var routes = require('./routes/index');
-
+var auth = require('./middlewares/auth');//after routes
 var app = express();
 
 // view engine setup
@@ -31,22 +30,22 @@ app.use(morgan('dev'));
 app.use(morgan('combined', {stream: accessLog}));
 app.use(bodyParser.json({limit:'1mb'}));
 app.use(bodyParser.urlencoded({extended: true, limit:'1mb'}));
-app.use(cookieParser());
+app.use(cookieParser(config.session_secret));
 
 app.use(compress());
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(flash());
 
 app.use(session({
-	saveUninitialized: true,
-  resave: true,
-  secret: config.cookieSecret,
-  key: config.db,//cookie name
-  cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},//30 days
+  secret: config.session_secret,
   store: new MongoStore({
-    db: config.db
-  })
+    url: config.url
+  }),
+  resave: true,
+  saveUninitialized: true,
 }));
+
+app.use(auth.authUser);
 
 //set static, dynamic helpers
 _.extend(app.locals, {

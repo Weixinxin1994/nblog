@@ -20,15 +20,7 @@ db.on('close', function() {
 require('./user');
 require('./post');
 require('./comment');
-//require('./article');
-//require('./project');
-
-//require('./blogroll');
 
 exports.User = mongoose.model('User');
 exports.Post = mongoose.model('Post');
 exports.Comment = mongoose.model('Comment');
-//exports.Article = mongoose.model('Article');
-//exports.Project = mongoose.model('Project');
-
-//exports.Blogroll = mongoose.model('Blogroll');

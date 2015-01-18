@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "bcrypt": "^0.8.0",
     "body-parser": "*",
     "compression": "^1.2.0",
     "connect-flash": "*",
@@ -13,6 +14,7 @@
     "cookie-parser": "*",
     "debug": "*",
     "ejs": "^1.0.0",
+    "eventproxy": "^0.3.2",
     "express": "4.x",
     "express-partials": "*",
     "express-session": "*",
@@ -23,9 +25,12 @@
     "moment": "*",
     "mongoose": "*",
     "morgan": "*",
+    "node-uuid": "^1.4.2",
+    "nodemailer": "^0.7",
     "serve-favicon": "*",
     "serve-static": "*",
     "static-favicon": "*",
+    "utility": "^1.2.1",
     "validator": "*"
   }
 }

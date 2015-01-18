@@ -4,6 +4,14 @@ var moment = require('moment');
 moment.locale('zh-cn');
 
 exports.index = function (req, res) {
+      res.render('index', {
+        title: '首页',        
+        user: req.session.user,
+        success: req.flash('success').toString(),
+        error: req.flash('error').toString()
+      });
+  }
+exports.list = function (req, res) {
 	 var tab = req.query.tab || req.session.tab || '';
    req.session.tab = tab;
    var query = {};
@@ -21,7 +29,7 @@ exports.index = function (req, res) {
       posts.forEach(function (v) {
          v.dateFromNow = moment(v.created_at).startOf().fromNow();
       }); 
-      res.render('index', {
+      res.render('list', {
         title: '首页',
         tabs: config.tabs,
         tab: tab,
