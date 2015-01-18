@@ -117,7 +117,7 @@ Post.getArchive = function(callback) {
         "author.name": 1,
         "created_at":1,
         "title": 1
-      }, {sort: {_id:-1}}, function (err, docs) {
+      }, {sort: {created_at:-1}}, function (err, docs) {
         if (err) {
           return callback(err);
         }
