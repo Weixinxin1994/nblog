@@ -29,6 +29,7 @@ router.post('/post', post.post);
 router.get('/logout', user.checkLogin);
 router.get('/logout', user.logout);
 
+router.get('/archive', user.checkLogin);//private
 router.get('/archive', post.archive);
 
 router.get('/search', post.search);
